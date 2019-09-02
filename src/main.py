@@ -63,7 +63,10 @@ def main():
     # Crea una instancia nueva de la clase Parser y le pasa los Tokens generados como parametro
     parse = parser.Parser(tokens)
 
-    parse.parse()
+    source_ast = parse.parse()
+
+    print(source_ast)
+
 
 
 # Llamada a la funcion de arranque

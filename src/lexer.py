@@ -15,7 +15,6 @@ class Lexer(object):
 
     @property
     def tokenize(self):
-
         """ Tokenize
 
                 Este metodo se utiliza para tokenizar el archivo de codigo fuente y retornar

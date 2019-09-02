@@ -12,12 +12,17 @@ from src.Objects.varObjects import VariableObjects
 class Parser(object):
 
     def __init__(self, tokens):
+        # Abstract Syntax tree
+        self.source_ast = {'main_scope': []}
         self.tokens = tokens
         self.token_index = 0
         self.transpiled_code = ""
 
     def parse(self):
-
+        """ Parser
+        Este metodo parseara los tokens dados como argumento y la convertira en un
+        arbol AST(Abstract Syntax Trees)
+        """
         while self.token_index < len(self.tokens):
 
             # Accede a los elementos de la Tupla, siendo que el primer elemento es el identificador
@@ -38,11 +43,12 @@ class Parser(object):
         print("Codigo fuente generado...")
         print(self.transpiled_code)
 
+        return self.source_ast
+
     # Este metodo atiende la declaracion de una variable
     def parse_variable_declaration(self, token_stream):
 
         token_checked = 0
-
         name = ""
         operator = ""
         value = ""
