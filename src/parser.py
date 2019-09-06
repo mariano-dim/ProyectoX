@@ -12,6 +12,8 @@ from src.Objects.varObjects import VariableObjects
 class Parser(object):
 
     def __init__(self, tokens):
+        # Tabla de simbolos para el control de scope de variables
+        self.symbol_tree = []
         # Abstract Syntax tree
         self.source_ast = {'main_scope': []}
         self.tokens = tokens
@@ -20,7 +22,7 @@ class Parser(object):
 
     def parse(self):
         """ Parser
-        Este metodo parseara los tokens dados como argumento y la convertira en un
+        Este metodo parseara los tokens dados como argumento y los convertira en un
         arbol AST(Abstract Syntax Trees)
         """
         while self.token_index < len(self.tokens):
@@ -40,8 +42,8 @@ class Parser(object):
 
             self.token_index += 1
 
-        print("Codigo fuente generado...")
-        print(self.transpiled_code)
+        # print("Codigo fuente generado...")
+        # print(self.transpiled_code)
 
         return self.source_ast
 
