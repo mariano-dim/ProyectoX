@@ -2,7 +2,7 @@
 #  Proyecto X
 #  main.py
 #
-#  Creato el 17/08/2019
+#  Creado el 17/08/2019
 #  Mariano Andres Di Maggio <mariano.dim@gmail.com>
 #
 
@@ -13,8 +13,6 @@ from src import lexer
 from src import parser
 import os
 import sys
-
-__import__("lexer")
 
 
 def main():

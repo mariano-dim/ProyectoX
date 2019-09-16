@@ -2,12 +2,12 @@
 #  Proyecto X
 #  lexer.py
 #
-#  Creato el 17/08/2019
+#  Creado el 17/08/2019
 #  Mariano Andres Di Maggio <mariano.dim@gmail.com>
 #
 
 import re
-
+from src.constants import DATATYPE
 
 class Lexer(object):
     def __init__(self, source_code):
@@ -49,23 +49,23 @@ class Lexer(object):
             # y el segundo valor representa el valor de ese tipo
             if word in "\n": pass
 
-            if word == "var":
-                tokens.append(["DECLARACION_DE_VARIABLE", word])
+            if word in DATATYPE:
+                tokens.append(["VARIABLE_DECLARATION", word])
 
             elif re.match("[a-z]", word) or re.match("[A-Z]", word):
-                tokens.append(["IDENTIFICADOR", word])
+                tokens.append(["IDENTIFICATOR", word])
 
             elif re.match("[0-9]", word):
-                tokens.append(["ENTERO", word])
+                tokens.append(["INTEGER", word])
 
             # elif re.match("\'[a-z..A-Z]\'", word):
             #     tokens.append(["CADENA", word])
 
             elif word in "=":
-                tokens.append(["OPERADOR", word])
+                tokens.append(["OPERATOR", word])
 
             if word in ";":
-                tokens.append(["FIN_DE_INSTRUCCION", ";"])
+                tokens.append(["INSTRUCTION_END", ";"])
 
             source_index += 1
 
