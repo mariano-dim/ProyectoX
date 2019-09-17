@@ -59,11 +59,11 @@ def main():
     print('\n|-|-|-|-|-|-|-|-|-|-|-|-|-|-  PARSER  -|-|-|-|-|-|-|-|-|-|-|-|-|-|-|- \n')
 
     # Crea una instancia nueva de la clase Parser y le pasa los Tokens generados como parametro
-    parse = parser.Parser(tokens)
+    # parse = parser.Parser(tokens)
 
-    source_ast = parse.parse()
+    # source_ast = parse.parse()
 
-    print(source_ast)
+    # print(source_ast)
 
 
 

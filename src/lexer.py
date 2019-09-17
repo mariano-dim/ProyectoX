@@ -8,10 +8,19 @@
 
 import re
 from src.constants import DATATYPE
+from src.token import Token
+
 
 class Lexer(object):
     def __init__(self, source_code):
+        self.tokens = []
         self.source_code = source_code
+        self.token_index = 0
+
+
+    def getNextToken(self):
+        return Token(self.tokens[self.token_index])
+
 
     @property
     def tokenize(self):
@@ -26,8 +35,6 @@ class Lexer(object):
                 Retorna:
                     tokens (list) : Retorna una lista completa de Tokens
         """
-
-        tokens = []
 
         # Antes de realizar el split, reemplazo las apariciones del caracter ";" por " ;", de esa
         # forma evito tener que analizar en cada caso si el ultimo caracter de un identificador es
@@ -50,23 +57,23 @@ class Lexer(object):
             if word in "\n": pass
 
             if word in DATATYPE:
-                tokens.append(["VARIABLE_DECLARATION", word])
+                self.tokens.append(Token("VARIABLE_DECLARATION", word))
 
             elif re.match("[a-z]", word) or re.match("[A-Z]", word):
-                tokens.append(["IDENTIFICATOR", word])
+                self.tokens.append(Token("IDENTIFICATOR", word))
 
             elif re.match("[0-9]", word):
-                tokens.append(["INTEGER", word])
+                self.tokens.append(Token("INTEGER", word))
 
             # elif re.match("\'[a-z..A-Z]\'", word):
             #     tokens.append(["CADENA", word])
 
             elif word in "=":
-                tokens.append(["OPERATOR", word])
+                self.tokens.append(Token("OPERATOR", word))
 
             if word in ";":
-                tokens.append(["INSTRUCTION_END", ";"])
+                self.tokens.append(Token("INSTRUCTION_END", ";"))
 
             source_index += 1
 
-        return tokens
+        return self.tokens

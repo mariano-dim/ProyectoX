@@ -51,7 +51,7 @@ class Parser(object):
                 # y no es necesario realizar un analisis de contexto
                 variableDeclaration = VariableDeclaration(self.tokens[self.token_index: len(self.tokens)])
                 # variableDeclaration.parseBasedOnTokenIndex()
-                if not variableDeclaration.parseBasedOnGrammar():
+                if variableDeclaration.parseBasedOnGrammar() == False:
                     print("ERROR: parseBasedOnGrammar")
                 self.token_index += variableDeclaration.token_index
 
