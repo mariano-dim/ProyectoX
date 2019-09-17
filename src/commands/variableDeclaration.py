@@ -6,17 +6,20 @@
 #  Mariano Andres Di Maggio <mariano.dim@gmail.com>
 #
 
+from src.exceptions.exceptions import SyntaxException
+
 
 class VariableDeclaration:
 
     def __init__(self, token_stream):
         self.token_stream = token_stream
         self.token_index = 0
+        self.actual_token_type = None
+        self.actual_token_value = None
 
     def parseBasedOnGrammar(self):
         print(self.token_stream)
-        actual_token_type = ""
-        actual_token_value = ""
+
 
         # Gramatica basica para la deginicion de variables-->No es recursiva, pero esta alcanzada por
         # una gramatica de mas alto nivel que si es recursiva
@@ -27,30 +30,30 @@ class VariableDeclaration:
 
         print("parseBasedOnGrammar")
 
-        actual_token_type = self.token_stream[self.token_index][0]
-        actual_token_value = self.token_stream[self.token_index][1]
-        if not self.matchVariableType(actual_token_type, actual_token_value):
+        self.actual_token_type = self.token_stream[self.token_index][0]
+        self.actual_token_value = self.token_stream[self.token_index][1]
+        if not self.matchVariableType(self.actual_token_type, self.actual_token_value):
             print("ERROR: not matchVariableType in an expression")
             return bool("False")
 
         self.token_index += 1
-        actual_token_type = self.token_stream[self.token_index][0]
-        actual_token_value = self.token_stream[self.token_index][1]
-        if not self.matchVariableName(actual_token_type, actual_token_value):
+        self.actual_token_type = self.token_stream[self.token_index][0]
+        self.actual_token_value = self.token_stream[self.token_index][1]
+        if not self.matchVariableName(self.actual_token_type, self.actual_token_value):
             print("ERROR: not matchVariableName in an expression")
             return bool("False")
 
         self.token_index += 1
-        actual_token_type = self.token_stream[self.token_index][0]
-        actual_token_value = self.token_stream[self.token_index][1]
-        if not self.matchVariableOperator(actual_token_type, actual_token_value):
+        self.actual_token_type = self.token_stream[self.token_index][0]
+        self.actual_token_value = self.token_stream[self.token_index][1]
+        if not self.matchVariableOperator(self.actual_token_type, self.actual_token_value):
             print("ERROR: not matchVariableOperator in an expression")
             return bool("False")
 
         self.token_index += 1
-        actual_token_type = self.token_stream[self.token_index][0]
-        actual_token_value = self.token_stream[self.token_index][1]
-        self.matchVariableValue(actual_token_type, actual_token_value)
+        self.actual_token_type = self.token_stream[self.token_index][0]
+        self.actual_token_value = self.token_stream[self.token_index][1]
+        self.matchVariableValue(self.actual_token_type, self.actual_token_value)
 
         return bool("True")
 
@@ -68,6 +71,17 @@ class VariableDeclaration:
         print("matchVariableOperator")
         if token_type not in ["OPERATOR"]:
             return bool("False")
+
+
+    def match(self, t):
+        if self.look.tag == t:
+            self.move()
+        else:
+            self.error("syntax error")
+
+    def error(self, s):
+        raise SyntaxException("Error generico")
+
 
     def matchVariableValue(self, token_type, token_value):
         print("matchVariableValue")
