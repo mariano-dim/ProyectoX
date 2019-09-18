@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-
+#!/usr/bin/python
 
 from PyQt5.QtCore import QDateTime, Qt, QTimer
 from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDateTimeEdit,

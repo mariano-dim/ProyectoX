@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # Token types
 #
 # EOF (end-of-file) token is used to indicate that

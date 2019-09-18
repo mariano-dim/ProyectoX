@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #
 #  Proyecto X
 #  lexer.py

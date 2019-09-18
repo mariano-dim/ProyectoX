@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 #
 #  Proyecto X
 #  variableDeclaration.py

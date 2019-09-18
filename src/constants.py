@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #
 #  Proyecto X
 #  constants.py

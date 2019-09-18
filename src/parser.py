@@ -1,3 +1,4 @@
+#!/usr/bin/python
 #
 #  Proyecto X
 #  parser.py
@@ -6,9 +7,6 @@
 #  Mariano Andres Di Maggio <mariano.dim@gmail.com>
 #
 
-from src.constants import DATATYPE
-from src.commands.ifStatement import IfStatement
-from src.commands.forStatement import ForStatement
 from src.commands.variableDeclaration import VariableDeclaration
 
 

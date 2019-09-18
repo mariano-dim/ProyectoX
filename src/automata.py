@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 # -*- coding:utf-8 -*-
 # Author: Jesús Mager
 # GPL v.3+
