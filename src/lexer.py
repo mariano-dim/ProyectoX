@@ -15,7 +15,9 @@ class Lexer():
         self.lexer.add('SEMI_COLON', r'\;')
         # Operators
         self.lexer.add('SUM', r'\+')
-        self.lexer.add('SUB', r'\-')
+        self.lexer.add('RESTA', r'\-')
+        self.lexer.add('MULTIPLICACION', r'\\')
+        self.lexer.add('DIVISION', r'\*')
         # Number
         self.lexer.add('NUMBER', r'\d+')
         # Ignore spaces

@@ -17,6 +17,16 @@ class Sum(BinaryOp):
         return self.left.eval() + self.right.eval()
 
 
+class Multiplicacion(BinaryOp):
+    def eval(self):
+        return self.left.eval() * self.right.eval()
+
+
+class Division(BinaryOp):
+    def eval(self):
+        return self.left.eval() / self.right.eval()
+
+
 class Sub(BinaryOp):
     def eval(self):
         return self.left.eval() - self.right.eval()
@@ -28,4 +38,3 @@ class Print():
 
     def eval(self):
         print(self.value.eval())
-
