@@ -7,13 +7,17 @@
 #  Creado el 17/08/2019
 #  Mariano Andres Di Maggio <mariano.dim@gmail.com>
 #
-from src import lexer
+from src import lexerOriginal
+from src.parser import Parser
 
 __author__ = 'Mariano Andres Di Maggio'
 
 import os
 import sys
 from builtins import print
+from src.lexer import Lexer
+
+
 
 def main():
     content = ""  # Esta variable mandendra el contenido del archivo de entrada leido
@@ -48,10 +52,15 @@ def main():
     print('\n|-|-|-|-|-|-|-|-|-|-|-|-|-|-  LEXER  |-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|- \n')
 
     # Crea una instancia nueva de la clase lexer
-    lex = lexer.Lexer(content)
+    # lex = lexerOriginal.Lexer(content)
+    # tokens = lex.tokenize
+    # print(tokens)
+    lexer = Lexer().get_lexer()
+    tokens = lexer.lex(content)
 
-    tokens = lex.tokenize
-    print(tokens)
+    # for token in tokens:
+    #     print(token)
+
 
     # --------------------------------------
     #  PARSER
@@ -65,7 +74,10 @@ def main():
 
     # print(source_ast)
 
-
+    pg = Parser()
+    pg.parse()
+    parser = pg.get_parser()
+    parser.parse(tokens).eval()
 
 # Llamada a la funcion de arranque
 main()
