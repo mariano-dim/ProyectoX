@@ -21,6 +21,7 @@ class WidgetGallery(QDialog):
 
         styleLabel = QLabel("E&stilo:")
         styleLabel.setBuddy(styleComboBox)
+        
 
         self.useStylePaletteCheckBox = QCheckBox("&Usar estilos predeterminados")
         self.useStylePaletteCheckBox.setChecked(True)

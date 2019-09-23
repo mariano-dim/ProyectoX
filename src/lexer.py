@@ -1,28 +1,95 @@
-from rply import LexerGenerator
+from ply import lex
+import ply.yacc as yacc
+
+tokens = (
+    'PLUS',
+    'MINUS',
+    'TIMES',
+    'DIV',
+    'LPAREN',
+    'RPAREN',
+    'NUMBER',
+)
+
+t_ignore = ' \t'
+
+t_PLUS = r'\+'
+t_MINUS = r'-'
+t_TIMES = r'\*'
+t_DIV = r'/'
+t_LPAREN = r'\('
+t_RPAREN = r'\)'
 
 
-class Lexer():
-    def __init__(self):
-        self.lexer = LexerGenerator()
+def t_NUMBER(t):
+    r"""[0-9]+"""
+    t.value = int(t.value)
+    return t
 
-    def _add_tokens(self):
-        # Print
-        self.lexer.add('PRINT', r'print')
-        # Parenthesis
-        self.lexer.add('OPEN_PAREN', r'\(')
-        self.lexer.add('CLOSE_PAREN', r'\)')
-        # Semi Colon
-        self.lexer.add('SEMI_COLON', r'\;')
-        # Operators
-        self.lexer.add('SUM', r'\+')
-        self.lexer.add('RESTA', r'\-')
-        self.lexer.add('MULTIPLICACION', r'\\')
-        self.lexer.add('DIVISION', r'\*')
-        # Number
-        self.lexer.add('NUMBER', r'\d+')
-        # Ignore spaces
-        self.lexer.ignore('\s+')
 
-    def get_lexer(self):
-        self._add_tokens()
-        return self.lexer.build()
+def t_newline(t):
+    r"""\n+"""
+    t.lexer.lineno += len(t.value)
+
+
+def t_error(t):
+    print("Invalid Token:", t.value[0])
+    t.lexer.skip(1)
+
+
+lexer = lex.lex()
+
+precedence = (
+    ('left', 'PLUS', 'MINUS'),
+    ('left', 'TIMES', 'DIV'),
+    ('nonassoc', 'UMINUS')
+)
+
+
+def p_add(p):
+    """expr : expr PLUS expr"""
+    p[0] = p[1] + p[3]
+
+
+def p_sub(p):
+    """expr : expr MINUS expr"""
+    p[0] = p[1] - p[3]
+
+
+def p_expr2uminus(p):
+    """expr : MINUS expr %prec UMINUS"""
+    p[0] = - p[2]
+
+
+def p_mult_div(p):
+    """expr : expr TIMES expr
+            | expr DIV expr"""
+
+    if p[2] == '*':
+        p[0] = p[1] * p[3]
+    else:
+        if p[3] == 0:
+            print("Can't divide by 0")
+            raise ZeroDivisionError('integer division by 0')
+        p[0] = p[1] / p[3]
+
+
+def p_expr2NUM(p):
+    'expr : NUMBER'
+    p[0] = p[1]
+
+
+def p_parens(p):
+    'expr : LPAREN expr RPAREN'
+    p[0] = p[2]
+
+
+def p_error(p):
+    print("Syntax error in input!")
+
+
+parser = yacc.yacc()
+
+
+res = parser.parse("-4*-(3-4)")  # the input
+print(res)

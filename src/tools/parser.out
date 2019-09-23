@@ -1,0 +1,153 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> prog
+Rule 1     prog -> BEGIN expr END
+Rule 2     expr -> PRINT LPAREN expr RPAREN SEMI_COLON
+Rule 3     expr -> expr PLUS expr
+Rule 4     expr -> NUMBER
+
+Terminals, with rules where they appear
+
+BEGIN                : 1
+END                  : 1
+LPAREN               : 2
+NUMBER               : 4
+PLUS                 : 3
+PRINT                : 2
+RPAREN               : 2
+SEMI_COLON           : 2
+error                : 
+
+Nonterminals, with rules where they appear
+
+expr                 : 1 2 3 3
+prog                 : 0
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . prog
+    (1) prog -> . BEGIN expr END
+
+    BEGIN           shift and go to state 2
+
+    prog                           shift and go to state 1
+
+state 1
+
+    (0) S' -> prog .
+
+
+
+state 2
+
+    (1) prog -> BEGIN . expr END
+    (2) expr -> . PRINT LPAREN expr RPAREN SEMI_COLON
+    (3) expr -> . expr PLUS expr
+    (4) expr -> . NUMBER
+
+    PRINT           shift and go to state 4
+    NUMBER          shift and go to state 5
+
+    expr                           shift and go to state 3
+
+state 3
+
+    (1) prog -> BEGIN expr . END
+    (3) expr -> expr . PLUS expr
+
+    END             shift and go to state 6
+    PLUS            shift and go to state 7
+
+
+state 4
+
+    (2) expr -> PRINT . LPAREN expr RPAREN SEMI_COLON
+
+    LPAREN          shift and go to state 8
+
+
+state 5
+
+    (4) expr -> NUMBER .
+
+    END             reduce using rule 4 (expr -> NUMBER .)
+    PLUS            reduce using rule 4 (expr -> NUMBER .)
+    RPAREN          reduce using rule 4 (expr -> NUMBER .)
+
+
+state 6
+
+    (1) prog -> BEGIN expr END .
+
+    $end            reduce using rule 1 (prog -> BEGIN expr END .)
+
+
+state 7
+
+    (3) expr -> expr PLUS . expr
+    (2) expr -> . PRINT LPAREN expr RPAREN SEMI_COLON
+    (3) expr -> . expr PLUS expr
+    (4) expr -> . NUMBER
+
+    PRINT           shift and go to state 4
+    NUMBER          shift and go to state 5
+
+    expr                           shift and go to state 9
+
+state 8
+
+    (2) expr -> PRINT LPAREN . expr RPAREN SEMI_COLON
+    (2) expr -> . PRINT LPAREN expr RPAREN SEMI_COLON
+    (3) expr -> . expr PLUS expr
+    (4) expr -> . NUMBER
+
+    PRINT           shift and go to state 4
+    NUMBER          shift and go to state 5
+
+    expr                           shift and go to state 10
+
+state 9
+
+    (3) expr -> expr PLUS expr .
+    (3) expr -> expr . PLUS expr
+
+  ! shift/reduce conflict for PLUS resolved as shift
+    END             reduce using rule 3 (expr -> expr PLUS expr .)
+    RPAREN          reduce using rule 3 (expr -> expr PLUS expr .)
+    PLUS            shift and go to state 7
+
+  ! PLUS            [ reduce using rule 3 (expr -> expr PLUS expr .) ]
+
+
+state 10
+
+    (2) expr -> PRINT LPAREN expr . RPAREN SEMI_COLON
+    (3) expr -> expr . PLUS expr
+
+    RPAREN          shift and go to state 11
+    PLUS            shift and go to state 7
+
+
+state 11
+
+    (2) expr -> PRINT LPAREN expr RPAREN . SEMI_COLON
+
+    SEMI_COLON      shift and go to state 12
+
+
+state 12
+
+    (2) expr -> PRINT LPAREN expr RPAREN SEMI_COLON .
+
+    END             reduce using rule 2 (expr -> PRINT LPAREN expr RPAREN SEMI_COLON .)
+    PLUS            reduce using rule 2 (expr -> PRINT LPAREN expr RPAREN SEMI_COLON .)
+    RPAREN          reduce using rule 2 (expr -> PRINT LPAREN expr RPAREN SEMI_COLON .)
+
+WARNING: 
+WARNING: Conflicts:
+WARNING: 
+WARNING: shift/reduce conflict for PLUS in state 9 resolved as shift
