@@ -5,12 +5,12 @@ import sys
 from builtins import print
 
 tokens = (
-    'PLUS',
     'LPAREN',
     'RPAREN',
     'NUMBER',
     'SEMI_COLON',
     'PRINT',
+    'HAS',
     'BEGIN',
     'END',
 )
@@ -20,11 +20,11 @@ precedence = (
 
 t_ignore = ' \t'
 
-t_PLUS = r'\+'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_SEMI_COLON = r'\;'
 t_PRINT = r'print'
+t_HAS = r'has'
 t_BEGIN = r'begin'
 t_END = r'end'
 
@@ -45,28 +45,64 @@ def t_error(t):
     t.lexer.skip(1)
 
 
-def p_main(p):
-    """prog : BEGIN expr END"""
+def p_prog(p):
+    """prog : BEGIN props END"""
+    print("prog", p[2])
     p[0] = p[2]
 
 
-def p_print(p):
-    """expr : PRINT LPAREN expr RPAREN SEMI_COLON"""
-    p[0] = p[3]
-
-
-def p_add(p):
-    """expr : expr PLUS expr"""
-    p[0] = p[1] + p[3]
-
-
-def p_expr2NUM(p):
-    'expr : NUMBER'
+def p_props(p):
+    """props : sec_props
+             | empty"""
+    print("props", p[1])
     p[0] = p[1]
 
 
+
+def p_sec_props(p):
+    """sec_props : sec_props prop
+                   | prop"""
+    if len(p) > 2:
+        print("sec_props", p[1])
+        p[0] = p[1]
+    else:
+        print("sec_props", p[1])
+        p[0] = p[1]
+
+
+def p_prop(p):
+    """prop : prop_print SEMI_COLON
+            | prop_has SEMI_COLON"""
+    print("prop", p[1])
+    p[0] = p[1]
+
+
+def p_prop_print(p):
+    """prop_print : PRINT LPAREN number RPAREN"""
+    print("prop_print", p[3])
+    p[0] = p[3]
+
+
+def p_prop_has(p):
+    """prop_has : HAS LPAREN number RPAREN"""
+    print("prop_has", p[3])
+    p[0] = p[3]
+
+
+def p_number(p):
+    """number : NUMBER"""
+    print("number", p[1])
+    p[0] = p[1]
+
+
+def p_empty(p):
+    """empty :"""
+    print("empty")
+    pass
+
+
 def p_error(p):
-    print("Syntax error in input!")
+    print("Error de sintaxis, compruebe su programa fuente!")
 
 
 def main():
