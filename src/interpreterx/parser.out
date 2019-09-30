@@ -1,0 +1,457 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> prog
+Rule 1     prog -> BEGIN props END
+Rule 2     prog -> BEGIN error END
+Rule 3     props -> sec_props
+Rule 4     props -> empty
+Rule 5     sec_props -> sec_props statement
+Rule 6     sec_props -> statement
+Rule 7     statement -> command SEMI_COLON
+Rule 8     command -> PRINT LPAREN expr RPAREN
+Rule 9     command -> LET ID EQUALS expr
+Rule 10    expr -> INTEGER
+Rule 11    expr -> STRING
+Rule 12    expr -> ID
+Rule 13    expr -> expr PLUS expr
+Rule 14    expr -> expr MINUS expr
+Rule 15    expr -> expr TIMES expr
+Rule 16    expr -> expr DIVIDE expr
+Rule 17    empty -> <empty>
+
+Terminals, with rules where they appear
+
+BEGIN                : 1 2
+DIVIDE               : 16
+END                  : 1 2
+EQUALS               : 9
+ID                   : 9 12
+INTEGER              : 10
+LET                  : 9
+LPAREN               : 8
+MINUS                : 14
+PLUS                 : 13
+PRINT                : 8
+RPAREN               : 8
+SEMI_COLON           : 7
+STRING               : 11
+TIMES                : 15
+error                : 2
+
+Nonterminals, with rules where they appear
+
+command              : 7
+empty                : 4
+expr                 : 8 9 13 13 14 14 15 15 16 16
+prog                 : 0
+props                : 1
+sec_props            : 3 5
+statement            : 5 6
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . prog
+    (1) prog -> . BEGIN props END
+    (2) prog -> . BEGIN error END
+
+    BEGIN           shift and go to state 2
+
+    prog                           shift and go to state 1
+
+state 1
+
+    (0) S' -> prog .
+
+
+
+state 2
+
+    (1) prog -> BEGIN . props END
+    (2) prog -> BEGIN . error END
+    (3) props -> . sec_props
+    (4) props -> . empty
+    (5) sec_props -> . sec_props statement
+    (6) sec_props -> . statement
+    (17) empty -> .
+    (7) statement -> . command SEMI_COLON
+    (8) command -> . PRINT LPAREN expr RPAREN
+    (9) command -> . LET ID EQUALS expr
+
+    error           shift and go to state 4
+    END             reduce using rule 17 (empty -> .)
+    PRINT           shift and go to state 9
+    LET             shift and go to state 10
+
+    props                          shift and go to state 3
+    sec_props                      shift and go to state 5
+    empty                          shift and go to state 6
+    statement                      shift and go to state 7
+    command                        shift and go to state 8
+
+state 3
+
+    (1) prog -> BEGIN props . END
+
+    END             shift and go to state 11
+
+
+state 4
+
+    (2) prog -> BEGIN error . END
+
+    END             shift and go to state 12
+
+
+state 5
+
+    (3) props -> sec_props .
+    (5) sec_props -> sec_props . statement
+    (7) statement -> . command SEMI_COLON
+    (8) command -> . PRINT LPAREN expr RPAREN
+    (9) command -> . LET ID EQUALS expr
+
+    END             reduce using rule 3 (props -> sec_props .)
+    PRINT           shift and go to state 9
+    LET             shift and go to state 10
+
+    statement                      shift and go to state 13
+    command                        shift and go to state 8
+
+state 6
+
+    (4) props -> empty .
+
+    END             reduce using rule 4 (props -> empty .)
+
+
+state 7
+
+    (6) sec_props -> statement .
+
+    PRINT           reduce using rule 6 (sec_props -> statement .)
+    LET             reduce using rule 6 (sec_props -> statement .)
+    END             reduce using rule 6 (sec_props -> statement .)
+
+
+state 8
+
+    (7) statement -> command . SEMI_COLON
+
+    SEMI_COLON      shift and go to state 14
+
+
+state 9
+
+    (8) command -> PRINT . LPAREN expr RPAREN
+
+    LPAREN          shift and go to state 15
+
+
+state 10
+
+    (9) command -> LET . ID EQUALS expr
+
+    ID              shift and go to state 16
+
+
+state 11
+
+    (1) prog -> BEGIN props END .
+
+    $end            reduce using rule 1 (prog -> BEGIN props END .)
+
+
+state 12
+
+    (2) prog -> BEGIN error END .
+
+    $end            reduce using rule 2 (prog -> BEGIN error END .)
+
+
+state 13
+
+    (5) sec_props -> sec_props statement .
+
+    PRINT           reduce using rule 5 (sec_props -> sec_props statement .)
+    LET             reduce using rule 5 (sec_props -> sec_props statement .)
+    END             reduce using rule 5 (sec_props -> sec_props statement .)
+
+
+state 14
+
+    (7) statement -> command SEMI_COLON .
+
+    PRINT           reduce using rule 7 (statement -> command SEMI_COLON .)
+    LET             reduce using rule 7 (statement -> command SEMI_COLON .)
+    END             reduce using rule 7 (statement -> command SEMI_COLON .)
+
+
+state 15
+
+    (8) command -> PRINT LPAREN . expr RPAREN
+    (10) expr -> . INTEGER
+    (11) expr -> . STRING
+    (12) expr -> . ID
+    (13) expr -> . expr PLUS expr
+    (14) expr -> . expr MINUS expr
+    (15) expr -> . expr TIMES expr
+    (16) expr -> . expr DIVIDE expr
+
+    INTEGER         shift and go to state 18
+    STRING          shift and go to state 19
+    ID              shift and go to state 20
+
+    expr                           shift and go to state 17
+
+state 16
+
+    (9) command -> LET ID . EQUALS expr
+
+    EQUALS          shift and go to state 21
+
+
+state 17
+
+    (8) command -> PRINT LPAREN expr . RPAREN
+    (13) expr -> expr . PLUS expr
+    (14) expr -> expr . MINUS expr
+    (15) expr -> expr . TIMES expr
+    (16) expr -> expr . DIVIDE expr
+
+    RPAREN          shift and go to state 22
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 26
+
+
+state 18
+
+    (10) expr -> INTEGER .
+
+    RPAREN          reduce using rule 10 (expr -> INTEGER .)
+    PLUS            reduce using rule 10 (expr -> INTEGER .)
+    MINUS           reduce using rule 10 (expr -> INTEGER .)
+    TIMES           reduce using rule 10 (expr -> INTEGER .)
+    DIVIDE          reduce using rule 10 (expr -> INTEGER .)
+    SEMI_COLON      reduce using rule 10 (expr -> INTEGER .)
+
+
+state 19
+
+    (11) expr -> STRING .
+
+    RPAREN          reduce using rule 11 (expr -> STRING .)
+    PLUS            reduce using rule 11 (expr -> STRING .)
+    MINUS           reduce using rule 11 (expr -> STRING .)
+    TIMES           reduce using rule 11 (expr -> STRING .)
+    DIVIDE          reduce using rule 11 (expr -> STRING .)
+    SEMI_COLON      reduce using rule 11 (expr -> STRING .)
+
+
+state 20
+
+    (12) expr -> ID .
+
+    RPAREN          reduce using rule 12 (expr -> ID .)
+    PLUS            reduce using rule 12 (expr -> ID .)
+    MINUS           reduce using rule 12 (expr -> ID .)
+    TIMES           reduce using rule 12 (expr -> ID .)
+    DIVIDE          reduce using rule 12 (expr -> ID .)
+    SEMI_COLON      reduce using rule 12 (expr -> ID .)
+
+
+state 21
+
+    (9) command -> LET ID EQUALS . expr
+    (10) expr -> . INTEGER
+    (11) expr -> . STRING
+    (12) expr -> . ID
+    (13) expr -> . expr PLUS expr
+    (14) expr -> . expr MINUS expr
+    (15) expr -> . expr TIMES expr
+    (16) expr -> . expr DIVIDE expr
+
+    INTEGER         shift and go to state 18
+    STRING          shift and go to state 19
+    ID              shift and go to state 20
+
+    expr                           shift and go to state 27
+
+state 22
+
+    (8) command -> PRINT LPAREN expr RPAREN .
+
+    SEMI_COLON      reduce using rule 8 (command -> PRINT LPAREN expr RPAREN .)
+
+
+state 23
+
+    (13) expr -> expr PLUS . expr
+    (10) expr -> . INTEGER
+    (11) expr -> . STRING
+    (12) expr -> . ID
+    (13) expr -> . expr PLUS expr
+    (14) expr -> . expr MINUS expr
+    (15) expr -> . expr TIMES expr
+    (16) expr -> . expr DIVIDE expr
+
+    INTEGER         shift and go to state 18
+    STRING          shift and go to state 19
+    ID              shift and go to state 20
+
+    expr                           shift and go to state 28
+
+state 24
+
+    (14) expr -> expr MINUS . expr
+    (10) expr -> . INTEGER
+    (11) expr -> . STRING
+    (12) expr -> . ID
+    (13) expr -> . expr PLUS expr
+    (14) expr -> . expr MINUS expr
+    (15) expr -> . expr TIMES expr
+    (16) expr -> . expr DIVIDE expr
+
+    INTEGER         shift and go to state 18
+    STRING          shift and go to state 19
+    ID              shift and go to state 20
+
+    expr                           shift and go to state 29
+
+state 25
+
+    (15) expr -> expr TIMES . expr
+    (10) expr -> . INTEGER
+    (11) expr -> . STRING
+    (12) expr -> . ID
+    (13) expr -> . expr PLUS expr
+    (14) expr -> . expr MINUS expr
+    (15) expr -> . expr TIMES expr
+    (16) expr -> . expr DIVIDE expr
+
+    INTEGER         shift and go to state 18
+    STRING          shift and go to state 19
+    ID              shift and go to state 20
+
+    expr                           shift and go to state 30
+
+state 26
+
+    (16) expr -> expr DIVIDE . expr
+    (10) expr -> . INTEGER
+    (11) expr -> . STRING
+    (12) expr -> . ID
+    (13) expr -> . expr PLUS expr
+    (14) expr -> . expr MINUS expr
+    (15) expr -> . expr TIMES expr
+    (16) expr -> . expr DIVIDE expr
+
+    INTEGER         shift and go to state 18
+    STRING          shift and go to state 19
+    ID              shift and go to state 20
+
+    expr                           shift and go to state 31
+
+state 27
+
+    (9) command -> LET ID EQUALS expr .
+    (13) expr -> expr . PLUS expr
+    (14) expr -> expr . MINUS expr
+    (15) expr -> expr . TIMES expr
+    (16) expr -> expr . DIVIDE expr
+
+    SEMI_COLON      reduce using rule 9 (command -> LET ID EQUALS expr .)
+    PLUS            shift and go to state 23
+    MINUS           shift and go to state 24
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 26
+
+
+state 28
+
+    (13) expr -> expr PLUS expr .
+    (13) expr -> expr . PLUS expr
+    (14) expr -> expr . MINUS expr
+    (15) expr -> expr . TIMES expr
+    (16) expr -> expr . DIVIDE expr
+
+    RPAREN          reduce using rule 13 (expr -> expr PLUS expr .)
+    PLUS            reduce using rule 13 (expr -> expr PLUS expr .)
+    MINUS           reduce using rule 13 (expr -> expr PLUS expr .)
+    SEMI_COLON      reduce using rule 13 (expr -> expr PLUS expr .)
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 26
+
+  ! TIMES           [ reduce using rule 13 (expr -> expr PLUS expr .) ]
+  ! DIVIDE          [ reduce using rule 13 (expr -> expr PLUS expr .) ]
+  ! PLUS            [ shift and go to state 23 ]
+  ! MINUS           [ shift and go to state 24 ]
+
+
+state 29
+
+    (14) expr -> expr MINUS expr .
+    (13) expr -> expr . PLUS expr
+    (14) expr -> expr . MINUS expr
+    (15) expr -> expr . TIMES expr
+    (16) expr -> expr . DIVIDE expr
+
+    RPAREN          reduce using rule 14 (expr -> expr MINUS expr .)
+    PLUS            reduce using rule 14 (expr -> expr MINUS expr .)
+    MINUS           reduce using rule 14 (expr -> expr MINUS expr .)
+    SEMI_COLON      reduce using rule 14 (expr -> expr MINUS expr .)
+    TIMES           shift and go to state 25
+    DIVIDE          shift and go to state 26
+
+  ! TIMES           [ reduce using rule 14 (expr -> expr MINUS expr .) ]
+  ! DIVIDE          [ reduce using rule 14 (expr -> expr MINUS expr .) ]
+  ! PLUS            [ shift and go to state 23 ]
+  ! MINUS           [ shift and go to state 24 ]
+
+
+state 30
+
+    (15) expr -> expr TIMES expr .
+    (13) expr -> expr . PLUS expr
+    (14) expr -> expr . MINUS expr
+    (15) expr -> expr . TIMES expr
+    (16) expr -> expr . DIVIDE expr
+
+    RPAREN          reduce using rule 15 (expr -> expr TIMES expr .)
+    PLUS            reduce using rule 15 (expr -> expr TIMES expr .)
+    MINUS           reduce using rule 15 (expr -> expr TIMES expr .)
+    TIMES           reduce using rule 15 (expr -> expr TIMES expr .)
+    DIVIDE          reduce using rule 15 (expr -> expr TIMES expr .)
+    SEMI_COLON      reduce using rule 15 (expr -> expr TIMES expr .)
+
+  ! PLUS            [ shift and go to state 23 ]
+  ! MINUS           [ shift and go to state 24 ]
+  ! TIMES           [ shift and go to state 25 ]
+  ! DIVIDE          [ shift and go to state 26 ]
+
+
+state 31
+
+    (16) expr -> expr DIVIDE expr .
+    (13) expr -> expr . PLUS expr
+    (14) expr -> expr . MINUS expr
+    (15) expr -> expr . TIMES expr
+    (16) expr -> expr . DIVIDE expr
+
+    RPAREN          reduce using rule 16 (expr -> expr DIVIDE expr .)
+    PLUS            reduce using rule 16 (expr -> expr DIVIDE expr .)
+    MINUS           reduce using rule 16 (expr -> expr DIVIDE expr .)
+    TIMES           reduce using rule 16 (expr -> expr DIVIDE expr .)
+    DIVIDE          reduce using rule 16 (expr -> expr DIVIDE expr .)
+    SEMI_COLON      reduce using rule 16 (expr -> expr DIVIDE expr .)
+
+  ! PLUS            [ shift and go to state 23 ]
+  ! MINUS           [ shift and go to state 24 ]
+  ! TIMES           [ shift and go to state 25 ]
+  ! DIVIDE          [ shift and go to state 26 ]
+

@@ -1,3 +1,7 @@
-print(qwe < asd2);
-print(qwe123 + qe12);
+BEGIN
+PRINT(1);
+PRINT(2);
+PRINT(3);
+END
+
 
