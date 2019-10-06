@@ -10,9 +10,11 @@
 import os
 import sys
 from builtins import print
-import xlexer
-import xparser
 import xinterpreter
+
+from xlexer import CalcLexer
+from xparser import CalcParser
+
 
 def main():
     content = ""  # Esta variable mandendra el contenido del archivo de entrada leido
@@ -36,24 +38,22 @@ def main():
 
     # Abre el archivo de entrada (en modo lectura) y lo graba en la variable 'content'
     try:
-        with open( fileName, "r") as sourceCodeFile:
+        with open(path + "/" + fileName, "r") as sourceCodeFile:
             content = sourceCodeFile.read()
         print("Tokenizando...")
         print(content)
     except:
         print('[ERROR] No se puede encontrar el archivo "' + fileName + '"')
 
-    prog = xparser.parse(content)
-    if not prog:
-        raise SystemExit
-    print("AST Tree...")
-    print(prog)
-    t = xinterpreter.XInterpreter(prog)
-    try:
-        t.do()
-        raise SystemExit
-    except RuntimeError:
-        pass
+    lexer = CalcLexer()
+    parser = CalcParser()
+    while True:
+        try:
+            text = input('calc > ')
+        except EOFError:
+            break
+        if text:
+            parser.parse(lexer.tokenize(text))
 
 
 if __name__ == '__main__':

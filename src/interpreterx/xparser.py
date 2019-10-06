@@ -22,7 +22,7 @@ precedence = (
 names = {}
 
 def p_prog(p):
-    """prog : BEGIN props END"""
+    """prog : BEGIN sec END"""
     # prog es un diccoinario, indexado por...
     p[0] = {p[2]}
 
@@ -39,16 +39,17 @@ def p_prog_error(p):
 # programa no hace nada o no genera nada
 
 def p_props(p):
-    """props : sec_props
-             | empty"""
+    """sec : sec_com
+           | empty"""
     p[0] = p[1]
 
 
 # 'sec_props' es la regla recurrente principal de instrucciones del programa
 
-def p_sec_props(p):
-    """sec_props : sec_props statement
-                 | statement"""
+def p_sec_com(p):
+    """sec_com : sec_com instr
+               | instr
+"""
     if len(p) == 3:
         p[0] = p[1] + p[2]
     else:
@@ -56,7 +57,7 @@ def p_sec_props(p):
 
 
 def p_prop(p):
-    """statement : command SEMI_COLON"""
+    """instr : command SEMI_COLON"""
     p[0] = p[1]
 
 
@@ -67,20 +68,34 @@ def p_command_print(p):
 
 
 def p_command_let(p):
-    '''command : LET ID EQUALS expr'''
-    p[0] = ('LET', p[2], p[4])
+    '''command : LET ID COLON type EQUALS expr'''
+    p[0] = ('LET', p[2], p[4], p[6])
+    #print(type(p[0]))
+    #p[0] = (AST.AssignNode(p[2], p[4]),)
+
+
+def p_command_assign(p):
+    '''command : ID EQUALS expr'''
+    p[0] = ('ASSIGN', p[1], p[3])
     #print(type(p[0]))
     #p[0] = (AST.AssignNode(p[2], p[4]),)
 
 
 def p_expr_integer(p):
-    '''expr : INTEGER'''
-    p[0] = ('INTEGER', int(p[1]))
+    '''expr : ER_INT'''
+    p[0] = ('ER_INT', int(p[1]))
 
 
 def p_expr_string(p):
-    '''expr : STRING'''
-    p[0] = ('STRING', p[1])
+    '''expr : ER_STR'''
+    p[0] = ('ER_STR', p[1])
+
+def p_command_type(p):
+    '''type : STRING 
+            | INTEGER'''
+    p[0] = ('TYPE', p[1])
+    #print(type(p[0]))
+    #p[0] = (AST.AssignNode(p[2], p[4]),)
 
 
 def p_expr_id(p):

@@ -14,22 +14,23 @@ keywords = (
     'END',
     'PRINT',
     'LET',
-
+    'INTEGER',
+    'STRING',
 )
 
 tokens = keywords + (
     'LPAREN', 
     'RPAREN',
     'SEMI_COLON',
-    'INTEGER',
+    'COLON',
     'EQUALS',
     'ID',
-    'STRING',
+    'ER_INT',
+    'ER_STR',
     'PLUS', 
     'MINUS', 
     'TIMES', 
     'DIVIDE',
-    
 
 )
 
@@ -40,14 +41,16 @@ t_ignore = ' \t'
 
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
-t_EQUALS = r'='
+t_COLON = r'\:'
+t_EQUALS = r'\:='
 t_SEMI_COLON = r'\;'
-t_INTEGER = r'\d+'
-t_STRING = r'\".*?\"'
+t_ER_INT = r'\d+'
+t_ER_STR = r'\".*?\"'
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
 t_DIVIDE = r'/'
+
 
 def t_error(t):
     print("Caracter no permitido %s" % t.value[0])
