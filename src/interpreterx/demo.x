@@ -5,4 +5,5 @@ LET variable3 : STRING := "amigos";
 
 variable1 := 16;
 PRINT(variable1);
+
 END
