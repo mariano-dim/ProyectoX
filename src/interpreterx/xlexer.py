@@ -14,20 +14,22 @@ keywords = (
     'END',
     'PRINT',
     'LET',
-    'INTEGER',
-    'STRING',
+    'IN',
+    'ST',
 )
 
 tokens = keywords + (
     'LPAREN', 
     'RPAREN',
+    'LCB',
+    'RCB',
     'SEMI_COLON',
     'COLON',
     'EQUALS',
     'ID',
     'ER_INT',
     'ER_STR',
-    'PLUS', 
+    'PLUS',
     'MINUS', 
     'TIMES', 
     'DIVIDE',
@@ -41,11 +43,15 @@ t_ignore = ' \t'
 
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
+
+t_LCB = r'\{'
+t_RCB = r'\}'
+
 t_COLON = r'\:'
 t_EQUALS = r'\:='
 t_SEMI_COLON = r'\;'
 t_ER_INT = r'\d+'
-t_ER_STR = r'\".*?\"'
+t_ER_STR = r'\".[a-zA-Z]*?\"'
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
@@ -58,7 +64,7 @@ def t_error(t):
 
 
 def t_ID(t):
-    r'[a-zA-Z][a-zA-Z0-9]*'
+    r'[a-zA-Z][a-zA-Z]*'
     if t.value in keywords:
         t.type = t.value
     return t
