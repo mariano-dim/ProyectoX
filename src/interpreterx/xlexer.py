@@ -12,6 +12,7 @@ from ply import *
 keywords = (
     'BEGIN',
     'END',
+    'START',
     'PRINT',
     'LET',
     'IN',
@@ -21,8 +22,8 @@ keywords = (
 tokens = keywords + (
     'LPAREN', 
     'RPAREN',
-    'LCB',
-    'RCB',
+    # 'LCB',
+    # 'RCB',
     'SEMI_COLON',
     'COLON',
     'EQUALS',
@@ -44,14 +45,14 @@ t_ignore = ' \t'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 
-t_LCB = r'\{'
-t_RCB = r'\}'
+# t_LCB = r'\{'
+# t_RCB = r'\}'
 
 t_COLON = r'\:'
 t_EQUALS = r'\:='
 t_SEMI_COLON = r'\;'
 t_ER_INT = r'\d+'
-t_ER_STR = r'\".[a-zA-Z]*?\"'
+t_ER_STR = r'\".[ a-zA-Z]*?\"'
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'

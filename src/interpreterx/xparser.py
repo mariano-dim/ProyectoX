@@ -22,12 +22,12 @@ precedence = (
 names = {}
 
 def p_prog(p):
-    """prog : BEGIN com END"""
+    """prog : START com END"""
     p[0] = {p[2]}
 
 
 def p_command_sec_com(p):
-    """com : LCB block RCB"""
+    """com : BEGIN block END"""
     p[0] = p[2]
 
 def p_command_print2(p):

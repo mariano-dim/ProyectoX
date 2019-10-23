@@ -14,8 +14,8 @@ import xast as AST
 from src.interpreter_x.xlexer import CalcLexer
 
 
-class CalcParser(Parser):
-    tokens = CalcLexer.tokens
+class XParser(Parser):
+    tokens = X.tokens
 
     precedence = (
         ('left', '+', '-'),

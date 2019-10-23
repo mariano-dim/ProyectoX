@@ -10,10 +10,10 @@
 import os
 import sys
 from builtins import print
-import xinterpreter
+#import xinterpreter
 
-from xlexer import CalcLexer
-from xparser import CalcParser
+from xlexer import XLexer
+#from xparser import CalcParser
 
 
 def main():
@@ -45,15 +45,10 @@ def main():
     except:
         print('[ERROR] No se puede encontrar el archivo "' + fileName + '"')
 
-    lexer = CalcLexer()
-    parser = CalcParser()
-    while True:
-        try:
-            text = input('calc > ')
-        except EOFError:
-            break
-        if text:
-            parser.parse(lexer.tokenize(text))
+    lexer = XLexer()
+    lexer.startLexer()
+    for tok in lexer.tokenize(content):
+        print('type=%r, value=%r' % (tok.type, tok.value))
 
 
 if __name__ == '__main__':
