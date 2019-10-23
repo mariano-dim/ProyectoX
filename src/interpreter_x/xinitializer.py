@@ -13,7 +13,7 @@ from builtins import print
 #import xinterpreter
 
 from xlexer import XLexer
-#from xparser import CalcParser
+from xparser import XParser
 
 
 def main():
@@ -47,8 +47,14 @@ def main():
 
     lexer = XLexer()
     lexer.startLexer()
-    for tok in lexer.tokenize(content):
-        print('type=%r, value=%r' % (tok.type, tok.value))
+
+
+    # for tok in lexer.tokenize(content):
+    #     print('type=%r, value=%r' % (tok.type, tok.value))
+
+    parser = XParser()
+    parser.parse(lexer.tokenize(content))
+
 
 
 if __name__ == '__main__':

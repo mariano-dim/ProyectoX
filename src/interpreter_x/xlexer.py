@@ -11,9 +11,8 @@ from sly import Lexer
 
 
 class XLexer(Lexer):
-    tokens = {ID, NAME, LPAREN, RPAREN, EQUALS, COLON, SEMI_COLON, PLUS, MINUS, TIMES, DIVIDE,
+    tokens = {ID, LPAREN, RPAREN, EQUALS, COLON, SEMI_COLON, PLUS, MINUS, TIMES, DIVIDE,
               BEGIN, START, END, PRINT, LET, IN, ST, TYPE_INT, TYPE_STR}
-#    ignore = ' \t'
 #    literals = {'=', '+', '-', '*', '/', '(', ')'}
 
     ignore = ' \t'
