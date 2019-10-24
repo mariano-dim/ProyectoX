@@ -23,18 +23,13 @@ class XParser(Parser):
     def __init__(self):
         self.names = {}
 
+    def getnames(self):
+        return self.names
+
+
     @_('START com END')
     def prog(self, p):
         return p.com
-
-
-    @_('BEGIN block END')
-    def com(self, p):
-        return p.block
-
-    @_('sec_com')
-    def block(self, p):
-        return p.sec_com
 
 
     @_('sec_com com')
@@ -49,7 +44,14 @@ class XParser(Parser):
 
     @_('LET ID COLON type EQUALS expr SEMI_COLON block')
     def block(self, p):
+        # Agrego una lista de valores asociados al ID al diccionario basado en el nombre del ID
+        print("Adding ID: '%s' to names" % p.ID)
+        self.names[p.ID] = [p.type, p.expr]
         return p.expr
+
+    @_('sec_com')
+    def block(self, p):
+        return p.sec_com
 
     @_('IN')
     def type(self, p):
@@ -59,6 +61,10 @@ class XParser(Parser):
     def type(self, p):
         return p.ST
 
+    @_('BEGIN block END')
+    def com(self, p):
+        return p.block
+
 
     @_('PRINT LPAREN expr RPAREN SEMI_COLON')
     def com(self, p):
@@ -67,6 +73,11 @@ class XParser(Parser):
 
     @_('ID EQUALS expr SEMI_COLON')
     def com(self, p):
+        # Actualizo el valor del ID, si no existe es ERROR
+        if not p.ID in self.names:
+            print("Undefined ID '%s' in assing" % p.ID)
+            return 0
+        self.names[p.ID] = p.expr
         return p.expr
 
 
@@ -84,7 +95,7 @@ class XParser(Parser):
         try:
             return self.names[p.ID]
         except LookupError:
-            print("Undefined name '%s'" % p.ID)
+            print("Undefined ID '%s' in expr" % p.ID)
             return 0
 
     @_('expr PLUS expr')

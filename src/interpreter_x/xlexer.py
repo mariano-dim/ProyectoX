@@ -40,13 +40,18 @@ class XLexer(Lexer):
     ID['IN'] = IN
     ID['ST'] = ST
 
+    # Ignored pattern
+    ignore_newline = r'\n+'
+
+    # Extra action for newlines
+    def ignore_newline(self, t):
+        self.lineno += t.value.count('\n')
+
+    ignore_comment = r'#.*\n'
+
+
     def startLexer(self):
         print("Inicializando Lexer...")
-
-    # Define a rule so we can track line numbers
-    @_(r'\n+')
-    def ignore_newline(self, t):
-        self.lineno += len(t.value)
 
     def error(self, t):
         print("Illegal character '%s'" % t.value[0])

@@ -40,21 +40,26 @@ def main():
     try:
         with open(path + "/" + fileName, "r") as sourceCodeFile:
             content = sourceCodeFile.read()
-        print("Tokenizando...")
-        print(content)
     except:
         print('[ERROR] No se puede encontrar el archivo "' + fileName + '"')
 
     lexer = XLexer()
+    print("Tokenizando...")
+    print(content)
     lexer.startLexer()
 
+    for tok in lexer.tokenize(content):
+        print('type=%r, value=%r' % (tok.type, tok.value))
 
-    # for tok in lexer.tokenize(content):
-    #     print('type=%r, value=%r' % (tok.type, tok.value))
-
+    print("Parseando...")
     parser = XParser()
-    parser.parse(lexer.tokenize(content))
+    prog = parser.parse(lexer.tokenize(content))
+    if not prog:
+        raise SystemExit
 
+    print("Generando salida...")
+    print(prog)
+    print(parser.getnames())
 
 
 if __name__ == '__main__':
