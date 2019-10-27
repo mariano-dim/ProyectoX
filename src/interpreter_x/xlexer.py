@@ -49,7 +49,6 @@ class XLexer(Lexer):
 
     ignore_comment = r'#.*\n'
 
-
     def startLexer(self):
         print("Inicializando Lexer...")
 
@@ -62,3 +61,4 @@ if __name__ == '__main__':
     lexer = XLexer()
     for tok in lexer.tokenize(data):
         print('type=%r, value=%r' % (tok.type, tok.value))
+

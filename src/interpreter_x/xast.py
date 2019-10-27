@@ -20,7 +20,7 @@ class Syntax_Error(Exception):
     pass
 
 
-class Node:
+class ASTNode:
     def __init__(self):
         print("init node")
 
@@ -31,18 +31,15 @@ class Node:
         return 0
 
 
-class NumberNode(Node):
-    def __init__(self, v):
-        if '.' in v:
-            self.value = float(v)
-        else:
-            self.value = int(v)
+class Number(ASTNode):
+    def __init__(self, value):
+        self.value = int(value)
 
     def evaluate(self):
         return self.value
 
 
-class StringNode(Node):
+class String(ASTNode):
     def __init__(self, v):
         self.value = v
 
@@ -50,7 +47,7 @@ class StringNode(Node):
         return self.value
 
 
-class PrintNode(Node):
+class Print(ASTNode):
     def __init__(self, v):
         self.value = v
 
@@ -58,7 +55,7 @@ class PrintNode(Node):
         print(self.value.evaluate())
 
 
-class AssignNode(Node):
+class Assign(ASTNode):
     def __init__(self, t, val):
         self.target = t
         self.value = val
@@ -69,7 +66,7 @@ class AssignNode(Node):
         return self.value
 
 
-class VariableNode(Node):
+class Variable(ASTNode):
     def __init__(self, name):
         self.name = name
 
@@ -80,3 +77,44 @@ class VariableNode(Node):
         #     return names[self.name]
         print("evaluate")
         return self.value
+
+
+class VarDec(ASTNode):
+    def __init__(self, name, type, value):
+        self.name = name
+        self.value = value
+        self.type = type
+
+    def evaluate(self):
+        return self.value
+
+
+class BinaryOp():
+    def __init__(self, left, right):
+        self.left = left
+        self.right = right
+
+class Add(BinaryOp):
+    def eval(self):
+        i = self.left.eval() + self.right.eval()
+        return i
+
+
+class Sub(BinaryOp):
+    def eval(self):
+        i = self.left.eval() - self.right.eval()
+        return i
+
+
+class Mul(BinaryOp):
+    def eval(self):
+        i = self.left.eval() * self.right.eval()
+        return i
+
+
+class Div(BinaryOp):
+    def eval(self):
+        i = self.left.eval() / self.right.eval()
+        return i
+
+

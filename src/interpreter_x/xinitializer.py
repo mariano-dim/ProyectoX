@@ -14,6 +14,7 @@ from builtins import print
 
 from xlexer import XLexer
 from xparser import XParser
+from xinterpreter import XInterpreter
 
 
 def main():
@@ -57,10 +58,13 @@ def main():
     if not prog:
         raise SystemExit
 
-    print("Generando salida...")
-    print(prog)
-    print(parser.getnames())
+    print("Generando la salida del parser...")
+    print('prog:' + str(prog))
+    # print('names:' + str(parser.getnames()))
 
+    print("Interpretando los resultados...")
+    interpreter = XInterpreter(prog)
+    result = interpreter.do()
 
 if __name__ == '__main__':
     main()

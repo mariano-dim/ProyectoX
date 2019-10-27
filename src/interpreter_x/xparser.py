@@ -9,6 +9,7 @@
 
 from sly import *
 from xlexer import XLexer
+from xast import ASTNode, Number, String, Print, Assign, Variable, VarDec
 
 
 class XParser(Parser):
@@ -17,15 +18,10 @@ class XParser(Parser):
     precedence = (
         ('left', 'PLUS', 'MINUS'),
         ('left', 'TIMES', 'DIVIDE'),
-#        ('right', 'UMINUS'),
     )
 
     def __init__(self):
-        self.names = {}
-
-    def getnames(self):
-        return self.names
-
+        self.lines = []
 
     @_('START com END')
     def prog(self, p):
@@ -34,20 +30,18 @@ class XParser(Parser):
 
     @_('sec_com com')
     def sec_com(self, p):
-        return p.com
+        return p.sec_com + [p.com]
 
 
     @_('com')
     def sec_com(self, p):
-        return p.com
+        return [p.com]
 
 
     @_('LET ID COLON type EQUALS expr SEMI_COLON block')
     def block(self, p):
-        # Agrego una lista de valores asociados al ID al diccionario basado en el nombre del ID
-        print("Adding ID: '%s' to names" % p.ID)
-        self.names[p.ID] = [p.type, p.expr]
-        return p.expr
+        #return [('LET', p.ID, p.type, p.expr)] + p.block
+        return [VarDec(p.ID, p.type, p.expr)] + p.block
 
     @_('sec_com')
     def block(self, p):
@@ -55,64 +49,55 @@ class XParser(Parser):
 
     @_('IN')
     def type(self, p):
-        return p.IN
+        return ('IN', p.IN)
 
     @_('ST')
     def type(self, p):
-        return p.ST
+        return ('ST', p.ST)
 
     @_('BEGIN block END')
     def com(self, p):
-        return p.block
-
+        return ('BLOCK', p.block)
 
     @_('PRINT LPAREN expr RPAREN SEMI_COLON')
     def com(self, p):
-        return p.expr
-
+        #return ('PRINT', p.expr)
+        return Print(p.expr)
 
     @_('ID EQUALS expr SEMI_COLON')
     def com(self, p):
-        # Actualizo el valor del ID, si no existe es ERROR
-        if not p.ID in self.names:
-            print("Undefined ID '%s' in assing" % p.ID)
-            return 0
-        self.names[p.ID] = p.expr
-        return p.expr
-
+        #return ('ASSIGN', p.ID, p.expr)
+        return Assign(p.ID, p.expr)
 
     @_('TYPE_INT')
     def expr(self, p):
-        return p.TYPE_INT
-
+        #return ('TYPE_INT', p.TYPE_INT)
+        return Number(p.TYPE_INT)
 
     @_('TYPE_STR')
     def expr(self, p):
-        return p.TYPE_STR
+        #return ('TYPE_STR', p.TYPE_STR)
+        return String(p.TYPE_STR)
 
     @_('ID')
     def expr(self, p):
-        try:
-            return self.names[p.ID]
-        except LookupError:
-            print("Undefined ID '%s' in expr" % p.ID)
-            return 0
+        return ('ID', p.ID)
 
     @_('expr PLUS expr')
     def expr(self, p):
-        return p.expr0 + p.expr1
+        return ('PLUS', p.expr0, p.expr1)
 
     @_('expr MINUS expr')
     def expr(self, p):
-        return p.expr0 - p.expr1
+        return ('MINUS', p.expr0, p.expr1)
 
     @_('expr TIMES expr')
     def expr(self, p):
-        return p.expr0 * p.expr1
+        return ('TIMES', p.expr0, p.expr1)
 
     @_('expr DIVIDE expr')
     def expr(self, p):
-        return p.expr0 / p.expr1
+        return ('DIVIDE', p.expr0, p.expr1)
 
     @_('"(" expr ")"')
     def expr(self, p):
